@@ -1,13 +1,16 @@
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Car {
 
     @Id @GeneratedValue
     private int CarID;
-    private int OwnerID;
+
+    @OneToOne
+    private Person Owner;
     private String LicensePlate;
     private String Make;
     private int Model;
@@ -20,13 +23,6 @@ public class Car {
         CarID = carID;
     }
 
-    public int getOwnerID() {
-        return OwnerID;
-    }
-
-    public void setOwnerID(int ownerID) {
-        OwnerID = ownerID;
-    }
 
     public String getLicensePlate() {
         return LicensePlate;
@@ -50,5 +46,13 @@ public class Car {
 
     public void setModel(int model) {
         Model = model;
+    }
+
+    public Person getOwner() {
+        return Owner;
+    }
+
+    public void setOwner(Person owner) {
+        Owner = owner;
     }
 }

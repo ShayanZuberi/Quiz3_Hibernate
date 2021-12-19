@@ -8,6 +8,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Iterator;
+import java.util.List;
+
 
 public class Main extends Application {
     public static void main(String[] args){
@@ -17,16 +20,16 @@ public class Main extends Application {
         Session session  = sf.openSession();
         Transaction trans = session.beginTransaction();
 
-        Car car = new Car();
-        car.setLicensePlate("ASZ123");
-        session.save(car);
+        List cars = session.createQuery("FROM Car where CarID = 1" ).list();
+        for(Iterator iter = cars.iterator(); iter.hasNext(); ){
+            Car car =  (Car) iter.next();
+            System.out.println("Registration: " + car.getLicensePlate());
+            System.out.println("Name: " +car.getOwner().getName());
+        }
 
-        Person person = new Person();
-        person.setCar(car);
-        person.setName("Sufwan");
-        person.setSurname("Amir");
-        session.save(person);
         trans.commit();
+
+
 
         launch();
 
@@ -35,11 +38,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
-
-
     }
 }
